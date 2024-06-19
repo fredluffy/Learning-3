@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .accordion {
+        width: 350px;
+        border: 1px solid gray;
+        transition: all 0.3s;
+      }
+      .accordion > .title {
+        background-color: #555;
+        color: white;
+        text-align: center;
+        margin: 0;
+        padding: 1em;
+        cursor: pointer;
+        transition: inherit;
+      }
+      .accordion > .title:not(:nth-last-child(2)){
+        margin-bottom: 5px;
+      }
+      .accordion > .title:hover{
+        background-color: black;
+      }
+      .accordion > .title.active{
+        background-color: darkgray;
+      }
+      .accordion > .title.active + .content{
+        display: block;
+      }
+      .accordion > .content {
+        padding: 0.5em;
+        /* transition: inherit; */
+        display: none;
+      }
+      .image-fluid {
+        display: block;
+        max-width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="accordion">
+      <h3 class="title active">Title 1</h3>
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+      </div>
+      <h3 class="title">Title 2</h3>
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+      </div>
+      <h3 class="title">Title 3</h3>
+      <div class="content">
+        <img src="images/54-1024x575.webp" alt="" class="image-fluid" />
+      </div>
+      <h3 class="title">Title 4</h3>
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+      </div>
+      <h3 class="title">Title 5</h3>
+      <div class="content">
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Alias ad repudiandae iste odit
+          modi possimus veritatis, dolor consectetur eligendi officiis nostrum, a facere mollitia.
+          Soluta maiores voluptates veritatis excepturi ratione.
+        </p>
+      </div>
+    </div>
+    <script>
+      let accordion = document.querySelector('.accordion')
+      let titles = accordion.querySelectorAll('.title');
+      let contents = accordion.querySelectorAll('.content');
+
+      
+      titles.forEach(function(title){
+        title.addEventListener('click', function(){
+          let duration = 1000
+          let pace = 5
+          let steps = duration / pace
+
+          const currentActiveTitle = accordion.querySelector('.title.active');
+          const currentActiveContent = currentActiveTitle.nextElementSibling;
+          let currentActiveContentHeight = parseFloat(getComputedStyle(currentActiveContent).height)
+
+          this.classList.add('active')
+          
+          const nextActiveContent = this.nextElementSibling
+          
+          // console.log(getComputedStyle(nextActiveContent).height)
+          let nextActiveContentHeight = parseFloat(getComputedStyle(nextActiveContent).height)
+
+          currentActiveContent.style.overflow = 'hidden'
+          nextActiveContent.style.overflow = 'hidden'
+         
+          
+          let stepCurrentActiveContentHeight = currentActiveContentHeight / steps
+          let currentAnimateHeight = currentActiveContentHeight
+          
+          let stepNextActiveContentHeight = nextActiveContentHeight / steps
+          let nextAnimateHeight = 0
+
+
+          let startAnimation = setInterval(function(){
+            currentAnimateHeight -= stepCurrentActiveContentHeight
+            currentActiveContent.style.height = `${currentAnimateHeight}px`
+
+            nextAnimateHeight += stepNextActiveContentHeight
+            nextActiveContent.style.height = `${nextAnimateHeight}px`
+
+            
+            if(nextAnimateHeight >= nextActiveContentHeight){
+              clearInterval(startAnimation)
+
+              currentActiveContent.style.removeProperty('overflow')
+              currentActiveContent.style.removeProperty('height')
+
+              nextActiveContent.style.removeProperty('overflow')
+              nextActiveContent.style.removeProperty('height')
+
+              currentActiveTitle.classList.remove('active')
+            }
+          }, pace);
+          
+
+        })
+      })
+    </script>
+  </body>
+</html>

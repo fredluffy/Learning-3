@@ -1,0 +1,29 @@
+*{
+  box-sizing: border-box;
+}
+html {
+  font-family: $main-font-family;
+  font-size: $base-font-size;
+}
+body {
+  margin: 0;
+  line-height: $body-line-height;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+@for $col-number from 1 through $column-count {
+  .col-#{$col-number} {
+    $col-width: (100% / $column-count) * $col-number;
+    width: $col-width;
+    flex: 0 0 $col-width;
+  }
+}
+
+.flex-no-wrap {
+  flex-wrap: nowrap !important; 
+}
